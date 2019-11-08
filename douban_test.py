@@ -7,9 +7,8 @@ from distutils.filelist import findall
 startIndex = 25
 doubanurl2 = "https://movie.douban.com/top250?start="
 
-print('你个二货')
-
-print("豆瓣电影TOP250" + "\n" +" 影片名              评分       评价人数     链接 ")
+douban_file = open("douban250.txt", "wb+")
+douban_file.write("影片名,评分,评价人数,链接\n".encode())
 a = 0
 while a < 10:
     if a == 0:
@@ -28,5 +27,9 @@ while a < 10:
         m_people = tag.find('div',class_="star")  
         m_span = m_people.findAll('span')  
         m_peoplecount = m_span[3].contents[0]  
-        m_url=tag.find('a').get('href')  
-        print( m_name+"        "  +  str(m_rating_score)   + "           " + m_peoplecount + "    " + m_url ) 
+        m_url=tag.find('a').get('href')
+        m_douban_str = m_name+","  +  str(m_rating_score)   + "" + m_peoplecount + "" + m_url
+        print(m_douban_str)
+        douban_file.write((m_douban_str+"\n").encode())
+        
+douban_file.close()
